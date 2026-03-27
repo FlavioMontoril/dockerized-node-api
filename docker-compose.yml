@@ -1,0 +1,28 @@
+services:
+  mysql: 
+    image: mysql:8.0.45
+    container_name: db_tasks_management
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api:
+    build: .
+    container_name: api_tasks_management
+    restart: always
+    depends_on: 
+      - mysql
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      PORT: ${PORT}
+      NODE_ENV: production
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: ${DOCKER_DATABASE_URL}
+
+volumes:
+  mysql_data:

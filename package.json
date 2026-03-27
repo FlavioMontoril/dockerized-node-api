@@ -1,0 +1,28 @@
+{
+  "name": "dockerized-node-api",
+  "author": "Flávio Montoril",
+  "description": "Projeto de demonstração mostrando Node.js + Prisma + MySQL em contêineres Docker com compilação em múltiplas etapas.",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc --ignoreDeprecations 6.0",
+    "start:dev": "tsx watch src/index.ts",
+    "start:prod": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@prisma/client": "6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "dotenv": "^17.3.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "prisma": "6"
+  }
+}
