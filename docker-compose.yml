@@ -9,17 +9,25 @@ services:
       - "${DB_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    # healthcheck é utilizado apenas quando utiliza-se condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s  # dá tempo inicial para o MySQL subir  
 
   api:
     build: .
     container_name: api_tasks_management
     restart: always
     depends_on: 
-      - mysql
+        mysql:
+          condition: service_healthy # Espera o MySQL estar 100% pronto
     ports:
-      - "${PORT}:${PORT}"
+      - "${PORT:-4002}:${PORT:-4002}"
     environment:
-      PORT: ${PORT}
+      PORT: ${PORT:-4002}
       NODE_ENV: production
       JWT_SECRET: ${JWT_SECRET}
       DATABASE_URL: ${DOCKER_DATABASE_URL}
